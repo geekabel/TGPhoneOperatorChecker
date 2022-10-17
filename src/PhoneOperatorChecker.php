@@ -18,7 +18,6 @@ class PhoneOperatorChecker {
     public static function clean(string $msisdn) {
 
         $msisdn = preg_replace('/^[0-9]/', '228', $msisdn);
-        // $msisdn = preg_replace('/^0/', '228',$msisdn));
 
         return $msisdn;
 
