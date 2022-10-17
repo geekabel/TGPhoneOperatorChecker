@@ -1,0 +1,21 @@
+{
+    "name": "godwin/tg-phone-operator-checker",
+    "description": "Valider et trouver le nom l'opérateur togolais d'un numéro de téléphone",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Godwin\\TgPhoneOperatorChecker\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Godwin K.",
+            "email": "devsgodwin@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
