@@ -30,3 +30,16 @@ var_dump(PhoneOperatorChecker::clean("0920000000")); // int(228920000000)
 ```
 
 ### Tests
+
+
+### Next TODO
+
+- Verify if it si fix number and the relative region
+- Add more logic and refactor clean method 
+- add possibility to check number with 228
+      e.g : 
+      ```php
+       Get Channel
+        var_dump(PhoneOperatorChecker::channel(22892000000)); // string(8) "TOGOCOM"
+        var_dump(PhoneOperatorChecker::channel(22899000000)); // string(8) "MOOV"
+      ```
