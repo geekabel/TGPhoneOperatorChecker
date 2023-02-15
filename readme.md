@@ -30,7 +30,6 @@ $operator = PhoneOperatorChecker::channel($cleaned_msisdn);
 echo $operator; // outputs "TOGOCOM"
 
 ```
-### Methods
 
 ### Tests
 You can write test cases for the PhoneOperatorChecker class to verify its behavior. Here's an example using PHPUnit:
@@ -60,4 +59,4 @@ class PhoneOperatorCheckerTest extends TestCase {
 
 ### Next TODO
 
-- En cours
+- Soon..
