@@ -29,7 +29,7 @@ class PhoneOperatorChecker {
      * @param string $msisdn
      * @return int
      */
-    private static function checkMSISDNLength(string $msisdn): int {
+    public static function checkMSISDNLength(string $msisdn): int {
         return (int) (strlen($msisdn) == 11 && is_numeric($msisdn)) ? $msisdn : -1;
     }
 
@@ -57,8 +57,8 @@ class PhoneOperatorChecker {
         return 'UNDEFINED';
     }
 
-    const TOGOCOM_PREFIXES = ["90", "92", "91", "70", "93"];
+    const TOGOCOM_PREFIXES = ["22890", "22892", "22891", "22870", "22893"];
 
-    const MOOV_AFRICA_PREFIXES = ["96", "97", "98", "99"];
+    const MOOV_AFRICA_PREFIXES = ["22896", "22897", "22898", "22899"];
 }
 
