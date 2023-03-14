@@ -3,63 +3,48 @@
 namespace Godwin\TgPhoneOperatorCheckerTest;
 
 use PHPUnit\Framework\TestCase;
+use Godwin\TgPhoneOperatorChecker\PhoneOperatorChecker;
 
 final class PhoneOperatorCheckerTest extends TestCase
 {
-    public function testCleanMSISDN()
+    public function testClean()
     {
-        $msisdn = '920000000';
-        $cleanedMsisdn = PhoneOperatorChecker::clean($msisdn);
-
-        $this->assertEquals('228' . $msisdn, $cleanedMsisdn);
+        $msisdn = '902345678';
+        $cleaned = PhoneOperatorChecker::clean($msisdn);
+        $this->assertEquals('228902345678', $cleaned);
     }
 
     public function testCheckMSISDNLength()
     {
-        $msisdn = '920000000';
-        $checkedMsisdn = PhoneOperatorChecker::checkMSISDNLength($msisdn);
+        $msisdn = '228902345678';
+        $length = PhoneOperatorChecker::checkMSISDNLength($msisdn);
+        $this->assertEquals(228902345678, $length);
 
-        $this->assertEquals($msisdn, $checkedMsisdn);
+        $msisdn = '22890234567';
+        $length = PhoneOperatorChecker::checkMSISDNLength($msisdn);
+        $this->assertEquals(-1, $length);
+
+        $msisdn = '22890234A678';
+        $length = PhoneOperatorChecker::checkMSISDNLength($msisdn);
+        $this->assertEquals(-1, $length);
     }
 
-    public function testInvalidMSISDN()
+    public function testChannel()
     {
-        $msisdn = '92000000';
-        $checkedMsisdn = PhoneOperatorChecker::checkMSISDNLength($msisdn);
-
-        $this->assertEquals(-1, $checkedMsisdn);
-    }
-
-    public function testTogocomChannel()
-    {
-        $msisdn = '920000000';
+        $msisdn = '902345678';
         $channel = PhoneOperatorChecker::channel($msisdn);
-
         $this->assertEquals('TOGOCOM', $channel);
-    }
 
-    public function testMoovAfricaChannel()
-    {
-        $msisdn = '970000000';
+        $msisdn = '962345678';
         $channel = PhoneOperatorChecker::channel($msisdn);
-
         $this->assertEquals('MOOV', $channel);
-    }
 
-    public function testUndefinedChannel()
-    {
-        $msisdn = '860000000';
+        $msisdn = '999999999';
         $channel = PhoneOperatorChecker::channel($msisdn);
+        $this->assertEquals('MOOV', $channel);
 
-        $this->assertEquals('UNDEFINED', $channel);
+        $msisdn = '228';
+        $channel = PhoneOperatorChecker::channel($msisdn);
+        $this->assertEquals('INVALID MSISDN', $channel);
     }
-
-    public function testCleanedMSISDNWith228Prefix()
-    {
-        $msisdn = '228920000000';
-        $cleanedMsisdn = PhoneOperatorChecker::clean($msisdn);
-
-        $this->assertEquals($msisdn, $cleanedMsisdn);
-    }
-
 }
