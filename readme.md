@@ -60,5 +60,3 @@ class PhoneOperatorCheckerTest extends TestCase {
 ### Next TODO
 
 - Soon..
-
-- En cours
