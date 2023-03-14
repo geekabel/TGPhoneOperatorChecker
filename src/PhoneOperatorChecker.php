@@ -13,25 +13,24 @@ class PhoneOperatorChecker {
      * by cleaning the number
      *
      * @param string $msisdn
-     * @return int
+     * @return string
      */
     public static function clean(string $msisdn) {
-
-        $msisdn = preg_replace('/^[0-9]/', '228', $msisdn);
+        if (strlen($msisdn) == 10 && substr($msisdn, 0, 3) != '228') {
+            $msisdn = '228' . $msisdn;
+        }
 
         return $msisdn;
-
-        //return self::checkMSISDNLength($msisdn);
     }
 
     /**
-     * Check the message count
+     * Check the length of the MSISDN
      *
-     * @param int $msisdn
+     * @param string $msisdn
      * @return int
      */
     private static function checkMSISDNLength(string $msisdn): int {
-        return (int) (strlen($msisdn) == 8 && is_numeric($msisdn)) ? $msisdn : -1;
+        return (int) (strlen($msisdn) == 11 && is_numeric($msisdn)) ? $msisdn : -1;
     }
 
     /**
@@ -40,21 +39,26 @@ class PhoneOperatorChecker {
      * @return string
      */
     public static function channel(string $msisdn): string {
-        $clean_msisdn = self::checkMSISDNLength($msisdn);
+        $clean_msisdn = self::clean($msisdn);
+        $msisdn_length = self::checkMSISDNLength($clean_msisdn);
 
-        if (in_array(substr($clean_msisdn, 0, 2), PhoneOperatorChecker::TOGOCOM_PREFIXES)) {
-            return strval('TOGOCOM');
+        if ($msisdn_length == -1) {
+            return 'INVALID MSISDN';
         }
 
-        if (in_array(substr($clean_msisdn, 0, 2), PhoneOperatorChecker::MOOV_AFRICA_PREFIXES)) {
-            return strval('MOOV');
+        if (in_array(substr($msisdn_length, 3, 2), PhoneOperatorChecker::TOGOCOM_PREFIXES)) {
+            return 'TOGOCOM';
         }
 
-        return strval('UNDEFINED');
+        if (in_array(substr($msisdn_length, 3, 2), PhoneOperatorChecker::MOOV_AFRICA_PREFIXES)) {
+            return 'MOOV';
+        }
+
+        return 'UNDEFINED';
     }
 
     const TOGOCOM_PREFIXES = ["90", "92", "91", "70", "93"];
 
     const MOOV_AFRICA_PREFIXES = ["96", "97", "98", "99"];
-
 }
+

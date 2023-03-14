@@ -8,6 +8,11 @@
             "Godwin\\TgPhoneOperatorChecker\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Godwin\\TgPhoneOperatorChecker\\Tests": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Godwin K.",

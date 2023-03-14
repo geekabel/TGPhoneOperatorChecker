@@ -16,30 +16,49 @@ $ composer require
 ```
 
  ### Usage
+ To use the PhoneOperatorChecker class, you can call its channel method with a given MSISDN:
 ```php
 use Godwin\TgPhoneOperatorChecker;
 
-Get Channel
+use PhoneOperatorChecker;
 
-var_dump(PhoneOperatorChecker::channel(92000000)); // string(8) "TOGOCOM"
-var_dump(PhoneOperatorChecker::channel(99000000)); // string(8) "MOOV"
+$msisdn = "22892000000";
 
-Clean MSISDN
+$cleaned_msisdn = PhoneOperatorChecker::clean($msisdn);
+$operator = PhoneOperatorChecker::channel($cleaned_msisdn);
 
-var_dump(PhoneOperatorChecker::clean("0920000000")); // int(228920000000)
+echo $operator; // outputs "TOGOCOM"
+
 ```
 
 ### Tests
+You can write test cases for the PhoneOperatorChecker class to verify its behavior. Here's an example using PHPUnit:
 
+```php
+use PhoneOperatorChecker;
+use PHPUnit\Framework\TestCase;
+
+class PhoneOperatorCheckerTest extends TestCase {
+  public function testClean() {
+    $msisdn = "22892000000";
+    $expected = 22892000000;
+
+    $result = PhoneOperatorChecker::clean($msisdn);
+    $this->assertEquals($expected, $result);
+  }
+
+  public function testChannel() {
+    $msisdn = "22892000000";
+    $expected = "TOGOCOM";
+
+    $result = PhoneOperatorChecker::channel($msisdn);
+    $this->assertEquals($expected, $result);
+  }
+}
+```
 
 ### Next TODO
 
-- Verify if it si fix number and the relative region
-- Add more logic and refactor clean method 
-- add possibility to check number with 228
-      e.g : 
-      ```php
-       Get Channel
-        var_dump(PhoneOperatorChecker::channel(22892000000)); // string(8) "TOGOCOM"
-        var_dump(PhoneOperatorChecker::channel(22899000000)); // string(8) "MOOV"
-      ```
+- Soon..
+
+- En cours
