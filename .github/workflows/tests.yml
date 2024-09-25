@@ -1,0 +1,59 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    # Add more steps here for running your tests and other checks
+    - name: Run test suite
+      run: composer run-script test
+
+    - name: Check code style
+      run: composer run-script cs-check
+
+    - name: Run Rector
+      run: composer run-script rector-dry-run
+
+    # Uncomment the following step if you want to run all checks
+    # - name: Run all checks
+    #   run: composer run-script check-all
+
+  # Uncomment and modify the following job if you want to automatically deploy to Packagist
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #   steps:
+  #   - name: Deploy to Packagist
+  #     env:
+  #       PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+  #     run: |
+  #       curl -XPOST -H'content-type:application/json' 'https://packagist.org/api/update-package?username=YOUR_USERNAME&apiToken='$PACKAGIST_TOKEN -d'{"repository":{"url":"https://github.com/YOUR_USERNAME/YOUR_REPO_NAME"}}'
